@@ -10,6 +10,7 @@
         rename = require("gulp-rename"),
         header = require('gulp-header'),
         sass = require('gulp-sass'),
+        sourcemaps = require('gulp-sourcemaps'),
         autoprefixer = require('gulp-autoprefixer'),
         browserSync = require('browser-sync').create();
 
@@ -33,6 +34,12 @@
         del.sync('./src/*.css', {force: true});
     });
 
+    gulp.task('dist:copy', function() {
+        return gulp
+                .src(['./src/*.js', './src/*.scss'])
+                .pipe(gulp.dest('./dist'));
+    });
+
     gulp.task('dist:sass', ['dist:clean'], function() {
         return gulp
             .src(['./src/*.scss'])
@@ -43,22 +50,26 @@
 
     gulp.task('dist:styles', ['dist:clean', 'dist:sass'], function () {
         return gulp.src('./dist/*.css')
+            .pipe(sourcemaps.init())
             .pipe(cleanCSS({ compatibility: 'ie8' }))
-            .pipe(rename('daterangepicker.min.css'))
+            .pipe(rename('jquery.daterangepicker.min.css'))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('./dist'))
             .on('error', gutil.log)
     });
 
     gulp.task('dist:script', ['dist:clean'], function () {
         return gulp.src('./src/*.js')
+            .pipe(sourcemaps.init())
             .pipe(uglify())
             .pipe(rename('jquery.daterangepicker.min.js'))
             .pipe(header(banner, {pkg: pkg}))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('./dist'))
             .on('error', gutil.log)
     });
 
-    gulp.task('dev:serve', ['dist:clean', 'dist:sass', 'dist:styles'], function() {
+    gulp.task('dev:serve', ['dist:clean', 'dist:copy', 'dist:sass', 'dist:styles'], function() {
         browserSync.init({
             port: 3000,
             server: "./"
@@ -67,7 +78,7 @@
         gulp.watch('./*.html').on('change', browserSync.reload);
     });
 
-    gulp.task('default', ['dist:clean', 'dist:sass', 'dist:styles', 'dist:script'], function (cb) {
+    gulp.task('default', ['dist:clean', 'dist:copy', 'dist:sass', 'dist:styles', 'dist:script'], function (cb) {
         gutil.log('Info :', gutil.colors.green('Distribution files v.' + pkg.version + ' are ready!'));
         cb(null)
     });
