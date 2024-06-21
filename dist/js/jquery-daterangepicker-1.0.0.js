@@ -3,6 +3,8 @@
 // license : MIT
 // www.jszen.com
 
+// Updated: 2024-06-20, David S.
+
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -967,6 +969,7 @@
             minDays: 0,
             maxDays: 0,
             showShortcuts: false,
+            showShortcutsLabel: true,
             shortcuts: {
                 //'prev-days': [1,3,5,7],
                 // 'next-days': [3,5,7],
@@ -2353,8 +2356,10 @@
 
             html += '<div class="footer">';
             if (opt.showShortcuts) {
-                html += '<div class="shortcuts"><b>' + translate('shortcuts') + '</b>';
-
+                html += '<div class="shortcuts">';
+                if(opt.showShortcutsLabel) {
+                    html += '<b>' + translate('shortcuts') + '</b>';
+                }
                 var data = opt.shortcuts;
                 if (data) {
                     var name;
