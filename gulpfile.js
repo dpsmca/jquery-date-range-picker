@@ -34,27 +34,40 @@
         del.sync('./src/*.css', {force: true});
     });
 
-    gulp.task('dist:copy', function() {
+    gulp.task('dist:copy:js', function() {
         return gulp
-                .src(['./src/*.js', './src/*.scss'])
-                .pipe(gulp.dest('./dist'));
+                .src('./src/jquery.daterangepicker.js')
+                .pipe(rename('jquery-daterangepicker-' + pkg.version + '.js'))
+                .pipe(gulp.dest('./dist/js'));
     });
+
+    gulp.task('dist:copy:scss', function() {
+        return gulp
+                .src('./src/jquery.daterangepicker.scss')
+                .pipe(rename('jquery-daterangepicker-' + pkg.version + '.scss'))
+                .pipe(gulp.dest('./dist/css'));
+    });
+
+    gulp.task('dist:copy', ['dist:copy:js', 'dist:copy:scss']);
 
     gulp.task('dist:sass', ['dist:clean'], function() {
         return gulp
-            .src(['./src/*.scss'])
-            .pipe(sass({outputStyle: 'expanded'}))
+            .src('./src/jquery.daterangepicker.scss')
+            .pipe(sourcemaps.init())
+            .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
             .pipe(autoprefixer({browsers: ['last 2 versions', 'ie 8']}))
-            .pipe(gulp.dest('./dist'));
+            .pipe(rename('jquery-daterangepicker-' + pkg.version + '.css'))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('./dist/css'));
     });
 
     gulp.task('dist:styles', ['dist:clean', 'dist:sass'], function () {
-        return gulp.src('./dist/*.css')
+        return gulp.src('./dist/css/*.css')
             .pipe(sourcemaps.init())
             .pipe(cleanCSS({ compatibility: 'ie8' }))
-            .pipe(rename('jquery.daterangepicker.min.css'))
+            .pipe(rename('jquery-daterangepicker-' + pkg.version + '.min.css'))
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('./dist'))
+            .pipe(gulp.dest('./dist/css'))
             .on('error', gutil.log)
     });
 
@@ -62,10 +75,10 @@
         return gulp.src('./src/*.js')
             .pipe(sourcemaps.init())
             .pipe(uglify())
-            .pipe(rename('jquery.daterangepicker.min.js'))
+            .pipe(rename('jquery-daterangepicker-' + pkg.version + '.min.js'))
             .pipe(header(banner, {pkg: pkg}))
             .pipe(sourcemaps.write('./'))
-            .pipe(gulp.dest('./dist'))
+            .pipe(gulp.dest('./dist/js'))
             .on('error', gutil.log)
     });
 
