@@ -1010,8 +1010,8 @@
             yearSelect: false
         }, opt);
 
-        opt.start = false;
-        opt.end = false;
+        if(opt.start == null) { opt.start = false; }
+        if(opt.end == null) { opt.end = false; }
 
         opt.startWeek = false;
 
