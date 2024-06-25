@@ -963,6 +963,7 @@
             },
             startDate: false,
             endDate: false,
+            debounce: 2000,
             time: {
                 enabled: false
             },
@@ -1051,7 +1052,7 @@
             } catch (e) {}
             domChangeTimer = setTimeout(function() {
                 checkAndSetDefaultValue();
-            }, 2000);
+            }, opt.debounce);
         });
 
         init_datepicker.call(this);
