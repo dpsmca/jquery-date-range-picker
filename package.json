@@ -22,6 +22,7 @@
   "homepage": "https://github.com/dpsmca/jquery-date-range-picker",
   "maintainers": [],
   "scripts": {
+    "build": "gulp",
     "dist": "gulp",
     "dev": "gulp dev",
     "test": "echo \"Error: no test specified\" && exit 1",
