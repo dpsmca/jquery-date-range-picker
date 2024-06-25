@@ -963,6 +963,7 @@
             },
             startDate: false,
             endDate: false,
+            debounce: 2000,
             time: {
                 enabled: false
             },
@@ -1009,8 +1010,8 @@
             yearSelect: false
         }, opt);
 
-        opt.start = false;
-        opt.end = false;
+        if(opt.start == null) { opt.start = false; }
+        if(opt.end == null) { opt.end = false; }
 
         opt.startWeek = false;
 
@@ -1051,7 +1052,7 @@
             } catch (e) {}
             domChangeTimer = setTimeout(function() {
                 checkAndSetDefaultValue();
-            }, 2000);
+            }, opt.debounce);
         });
 
         init_datepicker.call(this);
