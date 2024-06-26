@@ -7,6 +7,56 @@ $(function()
 		window.console.log = function(){};
 	}
 
+	var selectors = selectors = [ "date-range0", "date-range1", "date-range1-1", "date-range2", "date-range3", "date-range4", "date-range105", "date-range100", "date-range101", "date-range102", "date-range103", "date-range4-1", "date-range5", "date-range6", "date-range7", "date-range8", "date-range9", "two-inputs", "date-range10", "date-range12", "date-range13", "date-range13-2", "date-range14", "date-range14-2", "date-range15", "date-range16", "date-range17", "date-range18", "date-range19", "date-range20", "date-range21", "date-range22", "date-range23", "date-range5-2", "date-range24", "date-range24-2", "date-range24-3", "date-range25", "date-range26", "hotel-booking", "date-range50", "date-range51", "date-range52", "date-range53", "date-range54", "date-range55", ];
+	var pickers = [];
+	var elements = [];
+	var opts = [];
+	window['selectors'] = selectors;
+	window['pickers'] = pickers;
+	window['elements'] = elements;
+	window['pickerOptions'] = opts;
+	window['opts'] = opts;
+
+	function getEls(selector, baseElement) {
+		let base = document;
+		let res = [];
+		if(baseElement != null) {
+			base = baseElement;
+		}
+		Log.d(`getEls(): Selector: '${selector}'\nBaseElement: `, base);
+		if(base != null && !base.querySelectorAll) {
+			let errtext = `getEls: base element does not have method querySelectorAll`;
+			Log.w(errtext + `:\n`, base);
+			let err1 = new Error(errtext);
+			throw err1;
+		}
+		res = Array.from(base.querySelectorAll(selector));
+		return res;
+	}
+
+	function getEl(selector, baseElement) {
+		let base = document;
+		let res = null;
+		if(baseElement != null) {
+			base = baseElement;
+		}
+		let els = getEls(selector, base);
+		if(Array.isArray(els) && els.length > 0) {
+			res = els[0];
+		}
+		return res;
+	}
+
+	var qsa = getEls;
+	var qs = getEl;
+
+	window['getEls'] = getEls;
+	window['getEl'] = getEl;
+	window['qsa'] = qsa;
+	window['qs'] = qs;
+
+	opts.push({});
+
     /**
 	 * Assign an id to each of the demo elements for easy reference.
      */
@@ -49,9 +99,7 @@ $(function()
 		'default-default': 'This is costom language'
 	};
 
-	$('#date-range0').dateRangePicker(
-	{
-	}).on('datepicker-first-date-selected', function(event, obj)
+	$('#date-range0').dateRangePicker(opts[0]).on('datepicker-first-date-selected', function(event, obj)
 	{
 		/* This event will be triggered when first date is selected */
 		console.log('first-date-selected',obj);
@@ -98,9 +146,7 @@ $(function()
 	});
 
 
-
-	$('#date-range1').dateRangePicker(
-	{
+	opts.push({
 		startOfWeek: 'monday',
     	separator : ' ~ ',
     	format: 'DD.MM.YYYY HH:mm',
@@ -109,6 +155,7 @@ $(function()
 			enabled: true
 		}
 	});
+	$('#date-range1').dateRangePicker(opts[1]);
 		$('#date-range1-1').dateRangePicker(
 	{
 		startOfWeek: 'monday',
@@ -121,20 +168,20 @@ $(function()
 		defaultTime: moment().startOf('day').toDate(),
 		defaultEndTime: moment().endOf('day').toDate()
 	});
-	$('#date-range2').dateRangePicker();
+	opts.push(null);
+	$('#date-range2').dateRangePicker(opts[2]);
 
-	$('#date-range3').dateRangePicker(
-	{
+	opts.push({
 		language:'cn'
 	});
+	$('#date-range3').dateRangePicker(opts[3]);
 
-	$('#date-range4').dateRangePicker(
-	{
+	opts.push({
 		language:'en'
 	});
+	$('#date-range4').dateRangePicker(opts[4]);
 
-	$('#date-range105').dateRangePicker(
-	{
+	opts.push({
 		showCustomValues: true,
 		customValueLabel: 'Dynamic Ranges',
 		customValues:
@@ -148,10 +195,10 @@ $(function()
 				value: 'Year To Date'
 			}
 		]
-	})
+	});
+	$('#date-range105').dateRangePicker(opts[5])
 
-	$('#date-range100').dateRangePicker(
-	{
+	opts.push({
 		shortcuts : null,
 		startOfWeek: 'sunday',
 		language:'en',
@@ -181,13 +228,13 @@ $(function()
 				}
 			}
 		]
-	}).on('datepicker-apply',function(event,obj)
+	});
+	$('#date-range100').dateRangePicker(opts[6]).on('datepicker-apply',function(event,obj)
 	{
 		console.log(obj);
 	});
 
-	$('#date-range101').dateRangePicker(
-	{
+	opts.push({
 		showShortcuts: true,
 		shortcuts :
 		{
@@ -195,9 +242,9 @@ $(function()
 			'next': ['week','month','year']
 		}
 	});
+	$('#date-range101').dateRangePicker(opts[7]);
 
-	$('#date-range102').dateRangePicker(
-	{
+	opts.push({
 		showShortcuts: true,
 		shortcuts :
 		{
@@ -207,41 +254,41 @@ $(function()
 			'next':null
 		}
 	});
+	$('#date-range102').dateRangePicker(opts[8]);
 
-	$('#date-range103').dateRangePicker(
-	{
+	opts.push({
 		autoClose: true
 	});
+	$('#date-range103').dateRangePicker(opts[9]);
 
-	$('#date-range4-1').dateRangePicker(
-	{
+	opts.push({
 		language: 'custom'
 	});
+	$('#date-range4-1').dateRangePicker(opts[10]);
 
-	$('#date-range5').dateRangePicker(
-	{
+	opts.push({
 		startDate: '2014-11-20'
 	});
+	$('#date-range5').dateRangePicker(opts[11]);
 
-	$('#date-range6').dateRangePicker(
-	{
+	opts.push({
 		startDate: '2013-01-10',
 		endDate: '2013-02-10'
 	});
+	$('#date-range6').dateRangePicker(opts[12]);
 
-	$('#date-range7').dateRangePicker(
-	{
+	opts.push({
 		minDays: 3,
 		maxDays: 7
 	});
+	$('#date-range7').dateRangePicker(opts[13]);
 
-	$('#date-range8').dateRangePicker(
-	{
+	opts.push({
 		startOfWeek: 'monday'
 	});
+	$('#date-range8').dateRangePicker(opts[14]);
 
-	$('#date-range9').dateRangePicker(
-	{
+	opts.push({
 		getValue: function()
 		{
 			return this.innerHTML;
@@ -251,9 +298,9 @@ $(function()
 			this.innerHTML = s;
 		}
 	});
+	$('#date-range9').dateRangePicker(opts[15]);
 
-	$('#two-inputs').dateRangePicker(
-	{
+	opts.push({
 		separator : ' to ',
 		getValue: function()
 		{
@@ -268,48 +315,66 @@ $(function()
 			$('#date-range201').val(s2);
 		}
 	});
+	var endClick = function(evt) {
+		console.log("endClick(): called with event:", evt);
+		let drp = $('#two-inputs').data("dateRangePicker");
+		let startDate = $("#date-range200"), endDate = $("#date-range201");
+		let d1 = startDate != null ? startDate.val() : "";
+		if(d1) {
+			let end = '';
+			if(endDate != null) {
+				end = endDate.val();
+				endDate.val('');
+			}
+			drp.setStart(d1);
+			if(end) {
+				dpr.resetMonthsView(end);
+			}
+		}
+	};
+	$('#two-inputs').dateRangePicker(opts[16]).on("datepicker-open", function(e) { console.log("datepicker-open: called with event:", e); });
+	$('#date-range201').click(endClick);
 
-	$('#date-range10').dateRangePicker(
-	{
+	opts.push({
 		format: 'dddd MMM Do, YYYY'  //more formats at http://momentjs.com/docs/#/displaying/format/
 	});
+	$('#date-range10').dateRangePicker(opts[17]);
 
-	$('#date-range12').dateRangePicker(
-	{
+	opts.push({
 		inline:true,
 		container: '#date-range12-container',
 		alwaysOpen:true
 	});
+	$('#date-range12').dateRangePicker(opts[18]);
 
-	$('#date-range13').dateRangePicker(
-	{
+	opts.push({
 		autoClose: true,
 		singleDate : true,
 		showShortcuts: false
 	});
+	$('#date-range13').dateRangePicker(opts[19]);
 
-	$('#date-range13-2').dateRangePicker(
-	{
+	opts.push({
 		autoClose: true,
 		singleDate : true,
 		showShortcuts: false,
 		singleMonth: true
 	});
+	$('#date-range13-2').dateRangePicker(opts[20]);
 
-	$('#date-range14').dateRangePicker(
-	{
+	opts.push({
 		batchMode: 'week',
 		showShortcuts: false
 	});
+	$('#date-range14').dateRangePicker(opts[21]);
 
-	$('#date-range14-2').dateRangePicker(
-	{
+	opts.push({
 		batchMode: 'week-range',
 		showShortcuts: false
 	});
+	$('#date-range14-2').dateRangePicker(opts[22]);
 
-	$('#date-range15').dateRangePicker(
-	{
+	opts.push({
 		showShortcuts: false,
 		beforeShowDay: function(t)
 		{
@@ -319,12 +384,13 @@ $(function()
 			return [valid,_class,_tooltip];
 		}
 	});
+	$('#date-range15').dateRangePicker(opts[23]);
 
-	$('#date-range16').dateRangePicker(
-	{
+	opts.push({
 		showShortcuts: false,
 		format: 'YYYY-MM-DD'
-	}).on('datepicker-change', function(evt, obj) {
+	});
+	$('#date-range16').dateRangePicker(opts[24]).on('datepicker-change', function(evt, obj) {
 		alert('date1: ' + obj.date1 + ' / date2: ' + obj.date2);
 	});
 
@@ -370,38 +436,37 @@ $(function()
 		$('#date-range16').data('dateRangePicker').resetMonthsView();
     });
 
-	$('#date-range17').dateRangePicker(
-	{
+	opts.push({
 		stickyMonths: true,
 		showShortcuts: false
 	});
+	$('#date-range17').dateRangePicker(opts[25]);
 
-	$('#date-range18').dateRangePicker(
-	{
+	opts.push({
 		customTopBar: 'Foo Bar'
 	});
+	$('#date-range18').dateRangePicker(opts[26]);
 
-	$('#date-range19').dateRangePicker(
-	{
+	opts.push({
 		extraClass: 'date-range-picker19'
 	});
+	$('#date-range19').dateRangePicker(opts[27]);
 
-	$('#date-range20').dateRangePicker(
-	{
+	opts.push({
 		hoveringTooltip: false
 	});
+	$('#date-range20').dateRangePicker(opts[28]);
 
-	$('#date-range21').dateRangePicker(
-	{
+	opts.push({
 		hoveringTooltip: function(days)
 		{
 			var D = ['','<span style="white-space:nowrap;">Please select another date</span>','Two', 'Three','Four','Five'];
 			return D[days] ? D[days] : days+' days';
 		}
 	});
+	$('#date-range21').dateRangePicker(opts[29]);
 
-	$('#date-range22').dateRangePicker(
-	{
+	opts.push({
 		showDateFilter: function(time, date)
 		{
 			return '<div style="padding:0 5px;">\
@@ -410,33 +475,33 @@ $(function()
 					</div>';
 		}
 	});
+	$('#date-range22').dateRangePicker(opts[30]);
 
-	$('#date-range23').dateRangePicker(
-	{
+	opts.push({
 		singleMonth: true,
 		showShortcuts: false,
 		showTopbar: false
 	});
+	$('#date-range23').dateRangePicker(opts[31]);
 
-	$('#date-range5-2').dateRangePicker(
-	{
+	opts.push({
 		minDays:3,
 		maxDays:7
 	});
+	$('#date-range5-2').dateRangePicker(opts[32]);
 
-	$('#date-range24').dateRangePicker(
-	{
+	opts.push({
 		showWeekNumbers: true
 	});
+	$('#date-range24').dateRangePicker(opts[33]);
 
-	$('#date-range24-2').dateRangePicker(
-	{
+	opts.push({
 		showWeekNumbers: true,
 		startOfWeek:'monday'
 	});
+	$('#date-range24-2').dateRangePicker(opts[34]);
 
-	$('#date-range24-3').dateRangePicker(
-	{
+	opts.push({
 		showWeekNumbers: true,
 		getWeekNumber: function(day)
 		{
@@ -445,19 +510,19 @@ $(function()
 			return moment(day).add( -1*daysOffset, 'days').format('W');
 		}
 	});
+	$('#date-range24-3').dateRangePicker(opts[35]);
 
-	$('#date-range25').dateRangePicker(
-	{
+	opts.push({
 		selectForward: true
 	});
+	$('#date-range25').dateRangePicker(opts[36]);
 
-	$('#date-range26').dateRangePicker(
-	{
+	opts.push({
 		selectBackward: true
 	});
+	$('#date-range26').dateRangePicker(opts[37]);
 
-	$('#hotel-booking').dateRangePicker(
-	{
+	opts.push({
 		startDate: new Date(),
 		selectForward: true,
 		beforeShowDay: function(t)
@@ -468,10 +533,10 @@ $(function()
 			return [valid,_class,_tooltip];
 		}
 	});
+	$('#hotel-booking').dateRangePicker(opts[38]);
 
 
-	$('#date-range50').dateRangePicker(
-	{
+	opts.push({
 		customOpenAnimation: function(cb)
 		{
 			$(this).fadeIn(300, cb);
@@ -481,38 +546,46 @@ $(function()
 			$(this).fadeOut(300, cb);
 		}
 	});
+	$('#date-range50').dateRangePicker(opts[39]);
 
-	$('#date-range51').dateRangePicker(
-	{
+	opts.push({
         customArrowPrevSymbol: '<i class="fa fa-arrow-circle-left"></i>',
         customArrowNextSymbol: '<i class="fa fa-arrow-circle-right"></i>'
 	});
+	$('#date-range51').dateRangePicker(opts[40]);
 
-	$('#date-range52').dateRangePicker(
-	{
+	opts.push({
 		monthSelect: true,
 		yearSelect: true
 	});
+	$('#date-range52').dateRangePicker(opts[41]);
 
-	$('#date-range53').dateRangePicker(
-	{
+	opts.push({
 		monthSelect: true,
 		yearSelect: [1900, moment().get('year')]
 	});
+	$('#date-range53').dateRangePicker(opts[42]);
 
-    $('#date-range54').dateRangePicker(
-    {
+	opts.push({
         monthSelect: true,
         yearSelect: function(current) {
             return [current - 10, current + 10];
         }
     });
+    $('#date-range54').dateRangePicker(opts[43]);
 
-	$('#date-range55').dateRangePicker(
-	{
+	opts.push({
 		monthSelect: true,
         yearSelect: true,
         startDate: moment().subtract(3, 'months').format('YYYY-MM-DD'),
         endDate: moment().endOf('day').format('YYYY-MM-DD'),
 	});
+	$('#date-range55').dateRangePicker(opts[44]);
+
+	for(let sel of selectors) {
+		let selector = `#${sel}`;
+		let el1 = $(selector);
+		elements.push(el1);
+		pickers.push(el1.data("dateRangePicker"));
+	}
 });
